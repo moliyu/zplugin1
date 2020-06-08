@@ -3,7 +3,7 @@ title: slide
 pageClass: custom-page-class
 ---
 <clientOnly>
-<demo name="进度条" detail="进度条组件">
+<demo name="slide" detail="拖动更改每个区域的大小">
 <zslide></zslide>
 <highlight-code slot="code" lang="vue" class="code">
 &ltzslide :slideList="slideList" @handleSlide="slide">&lt/zslide>
