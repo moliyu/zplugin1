@@ -27,9 +27,10 @@ module.exports = {
                     ['./guide/button/button','button'],
                     ['./guide/switch/switch','switch'],
                     ['./guide/table/table','table'],
+                    ['./guide/slide/slide','slide'],
                     ['./guide/collapse/collapse','collapse'],
                     ['./guide/progress/progress','进度条'],
-                    ['./guide/calendar/calendar','日历'],
+                    ['./guide/calendar/calendar','日历']
                 ],
             },
             

@@ -4,6 +4,7 @@ import ztable from './plugins/ztable/index'
 import zprogress from './plugins/zprogress/index'
 import zcollapse from './plugins/zcollapse/index'
 import zcalendar from './plugins/zcalenda/index'
+import zslide from './plugins/zslide'
 
 const components = [
     zbutton,
@@ -11,7 +12,8 @@ const components = [
     ztable,
     zprogress,
     zcollapse,
-    zcalendar
+    zcalendar,
+    zslide
 ];
 
 const install = function (Vue, opts = {}) {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <zbutton normal>my name is</zbutton>
-    <zswitch :toggle="toggle" @click.native="toggle=!toggle" open="red" close="yellow" w=60 h='20' style="margin-top:20px"></zswitch>
+    <zswitch :toggle="toggle" @click.native="toggle=!toggle" open="red" close="yellow" w="60" h="20" style="margin-top:20px"></zswitch>
     <!-- <ztable ref="jj" @chooseList='getList' center :border='true' :dataList="list" :header="header" style="margin-top:20px" :per="[4,1,3]">
         <template v-slot:数据="row">
             <div>{{row.header.data}}</div>
@@ -12,20 +12,24 @@
         <template v-slot:0="row">
           <div v-if="row.body.i==1" @click="cl(row)">dog</div>
         </template>
-    </ztable> -->
-    <zprogress :per="per" bg="red" perbg="green" :play="true" style="width: 200px" h=30></zprogress>
-    <ztable :header="header" :dataList="list" style="marginTop: 20px;" :trStyle="{border: '1px solid'}" center :cellStyle="{color: 'green'}" :select="toggle" :widthList="['30%','','10%']" @chooseList="chooseList">
-        <template v-slot:姓名="row">
-            {{row.header.data.name}}
-        </template>
-        <template v-slot:name="row">
-          {{row.body.data}}
-        </template>
-        <div slot="表头">
-          1234
-        </div>
+    </ztable>-->
+    <zprogress :per="per" bg="red" perbg="green" :play="true" style="width: 200px" h="30"></zprogress>
+    <ztable
+      :header="header"
+      :dataList="list"
+      style="marginTop: 20px;"
+      :trStyle="{border: '1px solid'}"
+      center
+      :cellStyle="{color: 'green'}"
+      :select="toggle"
+      :widthList="['30%','','10%']"
+      @chooseList="chooseList"
+    >
+      <template v-slot:姓名="row">{{row.header.data.name}}</template>
+      <template v-slot:name="row">{{row.body.data}}</template>
+      <div slot="表头">1234</div>
     </ztable>
-    <zcalenda :date="{year: 2020, month: 6, day: 20}" style="width: 300px;border: 1px solid" :range="true" @select="select" ></zcalenda>
+    <zcalenda :date="{year: 2020, month: 6, day: 20}" style="width: 300px;border: 1px solid" :range="true" @select="select"></zcalenda>
     <!-- <div id="wave" class="wave" ref="wave"></div>
     <div id="timeline"></div>
     <div class="play">
@@ -33,34 +37,23 @@
       <zbutton @click.native="pauseaudio">暂停</zbutton>
       <zbutton @click.native="stopaudio">停止</zbutton> 
       <zbutton @click.native="deleteregion">删除</zbutton> 
-    </div> -->
+    </div>-->
     <zbutton @click.native="show1=!show1">yi</zbutton>
     <zcollapse>
-     <div v-if="show1" style="padding: 10px; background: red; padding: 20px">
-       <div>dog</div>
-       <div>dog</div>
-       <div>dog</div>
-       <div>dog</div>
-      
-    </div> 
-  </zcollapse>
-  <div>
-  <zbutton @click.native="show2=!show2">dianji</zbutton>
-      <zcollapse>
-          <div v-if="show2" style="background: yellow;">
-              fjoiwjfo
-          </div>
-      </zcollapse>
-  </div>
-    <!-- <zcollapse>
-     <div v-if="show1">
-      <div style="height: 25px;overflow: auto; border: 1px solid">
-        abcd 
-        <div>just soso</div>
-        <p>i'm ok</p> 
+      <div v-if="show1" style="padding: 10px; background: red; padding: 20px">
+        <div>dog</div>
+        <div>dog</div>
+        <div>dog</div>
+        <div>dog</div>
       </div>
-    </div> 
-  </zcollapse> -->
+    </zcollapse>
+    <div>
+      <zbutton @click.native="show2=!show2">dianji</zbutton>
+      <zcollapse>
+        <div v-if="show2" style="background: yellow;">fjoiwjfo</div>
+      </zcollapse>
+    </div>
+    <zslide :slideList="evalList"></zslide>
   </div>
 </template>
 
@@ -69,14 +62,12 @@ import zbutton from './plugins/zbutton/zbutton'
 import zswitch from '@/plugins/zswitch/zswitch'
 import zprogress from '@/plugins/zprogress/zprogress'
 import ztable from '@/plugins/ztable/ztable'
-import {getdata} from "@/plugins/ztable/test"
+import { getdata } from "@/plugins/ztable/test"
 import zcalenda from './plugins/zcalenda/zcalenda'
-// import WaveSurfer from 'wavesurfer.js'
-// import RegionsPlugin from 'wavesurfer.js/src/plugin/regions'
-// import timelineplugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.js'
-import {pmctowav} from './utils'
+import { pmctowav } from './utils'
 import axios from 'axios'
 import zcollapse from './plugins/zcollapse/zcollapse.js'
+import zslide from './plugins/zslide/zslide'
 // import zcollapse from './utils' 
 export default {
   name: 'app',
@@ -86,30 +77,36 @@ export default {
     zprogress,
     ztable,
     zcalenda,
-    zcollapse
+    zcollapse,
+    zslide
   },
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App',
       show1: false,
 
       show2: false,
       cList: [
-        {theme: '主题', content: '内容'},
-        {theme: '主题1', content: '内容1'},
+        { theme: '主题', content: '内容' },
+        { theme: '主题1', content: '内容1' },
       ],
       toggle: true,
       per: 0,
       header: [
-        {prop:'name', name: '姓名', width: '100px'},
-        {prop:'value', name: '数据'},
-        {prop:'cat', name: '表头'}
+        { prop: 'name', name: '姓名', width: '100px' },
+        { prop: 'value', name: '数据' },
+        { prop: 'cat', name: '表头' }
+      ],
+      evalList: [
+        { color: '#67C23A', level: 'A', min: 0, max: 10 },
+        { color: '#6354e9', level: 'B', min: 10, max: 20 },
+        { color: '#38bedf', level: 'C', min: 20, max: 100 }
       ],
       list: [
         // { value: 'a的数据',name: 'a', cat:false},
         // { value: 'b的数据',name: 'b', cat: false}
       ],
-      ppp:'jjjj',
+      ppp: 'jjjj',
       file: 'http://localhost:8000/001.wav',
       waveSurfer: null,
       region: null,
@@ -117,72 +114,11 @@ export default {
     }
   },
   created() {
-    getdata().then(data => { 
+    getdata().then(data => {
       // console.log('iiii', data)
       this.list = data
     })
-    // axios.get('http://localhost:8000/hello.pcm', {responseType: 'arraybuffer'}).then(data=> {
-    //   console.log('777', data)
-    //   // this.file = new Blob([data.data])
-    //   // this.file = data.data
-    //   // this.file = 
-    //   let d = pmctowav(data.data,16000, 16, 2)
-    //   var blob = new Blob([d], {type: 'audio/wave'})
-    //   var src = URL.createObjectURL(blob)
-    //   console.log(src, blob)
-    //   this.waveSurfer.load(src)
-    // })
-    // var timer = setInterval(() => {
-    //   if(this.per>=100) {
-    //     this.per=0
-    //     clearInterval(timer) 
-    //     }else {
-
-    //       // console.log(this.per)
-    //       this.per+=9
-    //     }
-      
-    // }, 200);
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.waveSurfer = WaveSurfer.create({
-  //       container: '#wave',
-  //       splitChannels: true,
-  //       plugins: [RegionsPlugin.create(
-  //         {
-  //           regions: this.regionsList,
-  //           dragSelection: {
-  //               slop: 5
-  //           }
-  //         }
-  //       ),
-  //       timelineplugin.create({
-  //         container: '#timeline'
-  //       })
-  //       ]
-  //     })
-  //     this.waveSurfer.on('ready', () => {
-  //       console.log('canplay')
-  //     })
-      
-  //     this.waveSurfer.on('region-created', (val) => {
-  //       console.log('hhhhhh',val)
-  //       val.color = 'rgba('+[~~(Math.random()*255),~~(Math.random()*255),~~(Math.random()*255)]+",0.5)"
-  //       this.regionsList.push(val)
-  //     })
-  //     this.waveSurfer.on('region-click', (val,e)=> {
-  //       this.region = val
-  //       console.log('8888', val.start, val.end, this.waveSurfer.getCurrentTime())
-  //       console.log(e.shiftKey)
-  //       // this.waveSurfer.play(val)
-  //       console.log('999', e, this.regionsList)
-  //       e.stopPropagation();
-  //       // e.srcElement.title="你好世界"
-  //       val.play()
-  //     })
-  //   })
-  // },
   methods: {
     getList(val) {
       // console.log(val,8888)
@@ -193,7 +129,7 @@ export default {
       // row.body.cat = !row.body.cat
     },
     tes() {
-      this.ppp="qqq"
+      this.ppp = "qqq"
     },
     playaudio() {
       this.waveSurfer.play()
@@ -219,39 +155,40 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-left: 10px;
-}
+  #app {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    margin-left: 10px;
+  }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
 
-h1, h2 {
-  font-weight: normal;
-}
+  h1,
+  h2 {
+    font-weight: normal;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
 
-a {
-  color: #42b983;
-}
+  a {
+    color: #42b983;
+  }
 
-.test {
-  color: pink
-}
+  .test {
+    color: pink;
+  }
 </style>
